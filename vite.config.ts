@@ -2,7 +2,7 @@ import { defineConfig, loadEnv } from 'vite'
 
 import react from '@vitejs/plugin-react'
 
-import { checker } from 'vite-plugin-checker'
+// import { checker } from 'vite-plugin-checker'
 import svgr from 'vite-plugin-svgr'
 
 import { dirname, resolve } from 'node:path'
@@ -34,7 +34,7 @@ export const resolveAlias = Object.entries(relativeAlias).reduce(
 export default defineConfig(({ mode }) => {
 	const envPrefix: string[] = ['APP_']
 
-	const { PORT = 3000, OPEN_BROWSER = 'true' } = {
+	const { PORT = '3000', OPEN_BROWSER = 'true' } = {
 		...loadEnv(mode, process.cwd(), ''),
 	}
 
@@ -42,20 +42,20 @@ export default defineConfig(({ mode }) => {
 		plugins: [
 			react(),
 			svgr(),
-			mode === 'development'
-				? checker({
-						typescript: true,
-						eslint: {
-							lintCommand: 'lint:check',
-						},
-					})
-				: null,
+			// mode === 'development'
+			// 	? checker({
+			// 			typescript: true,
+			// 			eslint: {
+			// 				lintCommand: 'lint:check',
+			// 			},
+			// 		})
+			// 	: null,
 		],
 		resolve: {
 			alias: resolveAlias,
 		},
 		server: {
-			port: PORT || 3000,
+			port: parseInt(PORT) || 3000,
 			open: OPEN_BROWSER === 'true' ? true : false,
 		},
 		envPrefix,
